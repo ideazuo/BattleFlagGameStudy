@@ -27,10 +27,11 @@ public class ShowPathCommand : BaseCommand
 
             return true;
         }
-        current = Tools.ScreenPointToRay2D(Camera.main, Input.mousePosition);//检测当前鼠标位置是否右2d碰撞盒
+        current = Tools.ScreenPointToRay2D(Camera.main, Input.mousePosition);//检测当前鼠标位置是否有2d碰撞盒
 
         if(current != null)
         {
+            //之前的检测碰撞盒和当前的盒子不一致，才进行路径检测
             if (current != pre)
             {
                 pre = current;
@@ -39,6 +40,7 @@ public class ShowPathCommand : BaseCommand
 
                 if (b != null)
                 {
+                    Debug.Log($"{b.RowIndex}_{b.ColIndex}");
                     //检测到block脚本的物体，进行寻路
                     end = new AStarPoint(b.RowIndex, b.ColIndex);
                     astar.FindPath(start, end, updatePath);
