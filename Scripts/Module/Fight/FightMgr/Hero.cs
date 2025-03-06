@@ -21,8 +21,26 @@ public class Hero : ModelBase
     //选中
     protected override void OnSelectCallBack(object arg)
     {
-        base.OnSelectCallBack(arg);
-        GameApp.ViewManager.Open(ViewType.HeroDesView, this);
+        //玩家回合才能选中角色
+        if (GameApp.FightManager.state == GameState.Player)
+        {
+            //不能操作
+            if (IsStop == true)
+            {
+                return;
+            }
+            if(GameApp.CommandManager.IsRunningCommand == true)
+            {
+                return;
+            }
+
+            //添加显示路径指令
+            GameApp.CommandManager.AddCommand(new ShowPathCommand(this));
+
+            base.OnSelectCallBack(arg);
+            GameApp.ViewManager.Open(ViewType.HeroDesView, this);
+        }
+        
     }
 
     //未选中
