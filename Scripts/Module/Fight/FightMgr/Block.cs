@@ -25,11 +25,13 @@ public class Block : MonoBehaviour
         dirSp = transform.Find("dir").GetComponent<SpriteRenderer>();
 
         GameApp.MsgCenter.AddEvent(gameObject, Defines.OnSelectEvent, OnSelectCallBack);
+        GameApp.MsgCenter.AddEvent(Defines.OnUnSelectEvent, OnUnSelectCallBack);
     }
 
     private void OnDestroy()
     {
         GameApp.MsgCenter.RemoveEvent(gameObject, Defines.OnSelectEvent, OnSelectCallBack);
+        GameApp.MsgCenter.RemoveEvent(Defines.OnUnSelectEvent, OnUnSelectCallBack);
     }
 
     //显示格子
@@ -48,6 +50,12 @@ public class Block : MonoBehaviour
     void OnSelectCallBack(System.Object arg)
     {
         GameApp.MsgCenter.PostEvent(Defines.OnUnSelectEvent);
+    }
+
+    //未选中
+    void OnUnSelectCallBack(System.Object arg)
+    {
+        dirSp.sprite = null;
     }
 
     private void OnMouseEnter()
