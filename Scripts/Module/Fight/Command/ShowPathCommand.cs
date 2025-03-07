@@ -23,9 +23,16 @@ public class ShowPathCommand : BaseCommand
         //点击鼠标后确认移动的位置
         if(Input.GetMouseButtonDown(0))
         {
-            GameApp.MsgCenter.PostEvent(Defines.OnUnSelectEvent);//执行未选中
+            if (prePaths.Count != 0 && this.model.Step >= prePaths.Count - 1)
+            {
+                GameApp.CommandManager.AddCommand(new MoveCommand(this.model, prePaths));//移动
+            }
+            else
+            {
+                GameApp.MsgCenter.PostEvent(Defines.OnUnSelectEvent);
+            }
 
-            return true;
+                return true;
         }
         current = Tools.ScreenPointToRay2D(Camera.main, Input.mousePosition);//检测当前鼠标位置是否有2d碰撞盒
 
@@ -93,8 +100,7 @@ public class ShowPathCommand : BaseCommand
 
                 GameApp.MapManager.SetBlockDir(paths[i].RowIndex, paths[i].ColIndex, dir, Color.yellow);
             }
-
-            prePaths = paths;
         }
+        prePaths = paths;
     }
 }
