@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //英雄脚本
-public class Hero : ModelBase
-{
+public class Hero : ModelBase,ISkill
+{   
+    public SkillProperty skillPro { get; set; }
     public void Init(Dictionary<string,string>data,int row,int col)
     {
         this.data = data;
@@ -16,6 +17,7 @@ public class Hero : ModelBase
         Step = int.Parse(this.data["Step"]);
         MaxHp = int.Parse(this.data["Hp"]);
         CurHp = MaxHp;
+        skillPro = new SkillProperty(int.Parse(this.data["Skill"]));
     }
 
     //选中
@@ -57,7 +59,7 @@ public class Hero : ModelBase
     //攻击
     private void onAttackCallBack(System.Object arg)
     {
-        Debug.Log("attack");
+        GameApp.CommandManager.AddCommand(new ShowSkillAreaCommand(this));
     }
 
     //待机
@@ -77,5 +79,17 @@ public class Hero : ModelBase
     {
         base.OnUnSelectCallBack(arg);
         GameApp.ViewManager.Close((int)ViewType.HeroDesView);
+    }
+
+    //显示技能区域
+    public void ShowSkillArea()
+    {
+        GameApp.MapManager.ShowAttackStep(this, skillPro.AttackRange, Color.red);
+    }
+
+    //隐藏技能区域
+    public void HideSkillArea()
+    {
+        GameApp.MapManager.HideAttackStep(this, skillPro.AttackRange);
     }
 }
