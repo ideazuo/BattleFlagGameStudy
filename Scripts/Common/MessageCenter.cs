@@ -122,7 +122,7 @@ public class MessageCenter
     {
         if(tempMsgDic.ContainsKey(eventName))
         {
-            tempMsgDic[eventName] += callback;
+            tempMsgDic[eventName] = callback;//添加的临时事件是要覆盖的，不是累加
         }
         else
         {

@@ -80,7 +80,7 @@ public class FightWorldManager
         enemys = new List<Enemy>();
         //将场景中的敌人脚本进行存储
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Enemy");//给怪物添加Enemy标签
-        Debug.Log($"enemy：{objs.Length}");
+        //Debug.Log($"enemy：{objs.Length}");
         for (int i = 0; i < objs.Length; i++)
         {
             Enemy enemy = objs[i].GetComponent<Enemy>();

@@ -47,7 +47,6 @@ public class ShowPathCommand : BaseCommand
 
                 if (b != null)
                 {
-                    Debug.Log($"{b.RowIndex}_{b.ColIndex}");
                     //检测到block脚本的物体，进行寻路
                     end = new AStarPoint(b.RowIndex, b.ColIndex);
                     astar.FindPath(start, end, updatePath);
