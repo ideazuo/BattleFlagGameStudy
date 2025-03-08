@@ -20,6 +20,10 @@ public class Enemy : ModelBase
     //选中
     protected override void OnSelectCallBack(object arg)
     {
+        if (GameApp.CommandManager.IsRunningCommand == true)
+        {
+            return;
+        }
         base.OnSelectCallBack(arg);
         GameApp.ViewManager.Open(ViewType.EnemyDesView, this);
     }
