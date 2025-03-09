@@ -63,6 +63,21 @@ public class FightController : BaseController
             parentTf = GameApp.ViewManager.canvasTf,
             Sorting_Order = 3
         });
+        GameApp.ViewManager.Register(ViewType.WinView, new ViewInfo()
+        {
+            PrefabName = "WinView",
+            controller = this,
+            parentTf = GameApp.ViewManager.canvasTf,
+            Sorting_Order = 3
+        });
+
+        GameApp.ViewManager.Register(ViewType.LossView, new ViewInfo()
+        {
+            PrefabName = "LossView",
+            controller = this,
+            parentTf = GameApp.ViewManager.canvasTf,
+            Sorting_Order = 3
+        });
 
         InitModuleEvent();
     }

@@ -9,6 +9,7 @@ public enum GameState
     Enter,
     Player,
     Enemy,
+    GameOver,
 }
 
 /// <summary>
@@ -72,6 +73,9 @@ public class FightWorldManager
             case GameState.Enemy:
                 _current = new FightEnemyUnit();
                 break;
+            case GameState.GameOver:
+                _current = new FightGameOverUnit();
+                break;
         }
         _current.Init();
     }
@@ -111,6 +115,26 @@ public class FightWorldManager
     public void RemoveEnemy(Enemy enemy)
     {
         enemys.Remove(enemy);
+
+        GameApp.MapManager.ChangeBlockType(enemy.RowIndex, enemy.ColIndex, BlockType.Null);//死亡后不要占用格子
+
+        if(enemys.Count == 0)
+        {
+            ChangeState(GameState.GameOver);
+        }
+    }
+
+    //移除英雄
+    public void RemoveHero(Hero hero)
+    {
+        heros.Remove(hero);
+
+        GameApp.MapManager.ChangeBlockType(hero.RowIndex, hero.ColIndex, BlockType.Null);//死亡后不要占用格子
+
+        if (heros.Count == 0)
+        {
+            ChangeState(GameState.GameOver);
+        }
     }
 
     //重置英雄行动
@@ -129,5 +153,38 @@ public class FightWorldManager
         {
             enemys[i].IsStop = false;
         }
+    }
+
+    /// <summary>
+    /// 获得离目标最近的英雄
+    /// </summary>
+    /// <param name="model">目标</param>
+    /// <returns></returns>
+    public ModelBase GetMinDisHero(ModelBase model)
+    {
+        if (heros.Count == 0)
+        {
+            return null;
+        }
+        Hero hero = heros[0];
+        float min_dis = hero.GetDis(model);
+        for (int i = 1; i < heros.Count; i++)
+        {
+            float dis = heros[i].GetDis(model);
+            if (dis < min_dis)
+            {
+                min_dis = dis;
+                hero = heros[i];
+            }
+        }
+        return hero;
+    }
+
+    //卸载资源
+    public void ReLoadRes()
+    {
+        heros.Clear();
+        enemys.Clear();
+        GameApp.MapManager.Clear();
     }
 }
