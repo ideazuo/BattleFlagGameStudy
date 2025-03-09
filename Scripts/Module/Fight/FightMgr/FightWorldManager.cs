@@ -102,4 +102,10 @@ public class FightWorldManager
         b.Type = BlockType.Obstacle;
         heros.Add(hero);
     }
+
+    ///移除怪物
+    public void RemoveEnemy(Enemy enemy)
+    {
+        enemys.Remove(enemy);
+    }
 }

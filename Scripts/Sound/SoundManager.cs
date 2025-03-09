@@ -66,7 +66,7 @@ public class SoundManager
     {
         clips = new Dictionary<string, AudioClip>();
         bgmSource = GameObject.Find("game").GetComponent<AudioSource>();
-        IsStop = false;
+        IsStop = true;
         BgmVolume = 1;
         EffectVolume = 1;
 
